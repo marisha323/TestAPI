@@ -18,6 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('parse-url','Api\LinkController@store');
-Route::get('get-title/{id}', 'Api\LinkController@show');
+
+Route::get('parse-url/{id}',  [LinkController::class, 'show'])->name('show');
 Route::post('/parse-url', [LinkController::class, 'store'])->name('parse');

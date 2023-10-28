@@ -33,5 +33,26 @@
     </div>
 </div>
 <h1>Welcome, {{Auth::user()->name}}</h1>
+<table class="table table-dark table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Links</th>
+        <th scope="col">Title</th>
+        <th scope="col">Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach ($links as $link)
+        <tr>
+            <th scope="row">{{ $link->id }}</th>
+            <td>{{ $link->url }}</td>
+            <td>{{ $link->title }}</td>
+            <td>{{ $link->status }}</td>
+        </tr>
+    @endforeach
+
+    </tbody>
+</table>
 </body>
 </html>

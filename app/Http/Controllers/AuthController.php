@@ -23,7 +23,6 @@ class AuthController extends Controller
 
     public function registerPost(Request $request)
     {
-
         return $this->authContract->registerUser($request);
     }
 

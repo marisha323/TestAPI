@@ -7,6 +7,6 @@ use PhpParser\Builder\Interface_;
 
 Interface LinkContract
 {
-    public function store(Request $request);
-
+    public function create($url);
+    public function status($id);
 }

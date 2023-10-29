@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\LinkContract;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LinkResource;
 use App\Jobs\ApiParserJob;
@@ -15,13 +16,19 @@ use Symfony\Component\Panther\PantherTestCase;
 
 class LinkController extends Controller
 {
+    private LinkContract $linkContract;
+    public function __construct(LinkContract $linkContract)
+    {
+        $this->linkContract=$linkContract;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $links = Link::with('user')->get();
-        return view('your.view.name', ['links' => $links]);
+        return view('home', ['links' => $links]);
     }
 
     /**
@@ -33,12 +40,13 @@ class LinkController extends Controller
             'url' => 'required|url',
         ]);
         $url = $request->input('url');
-        $link = new Link();
-        $link->url = $url;
-        $link->status = 0; // Позначаємо URL як "в процесі"
-        $link->save();
-
-        dispatch(new ApiParserJob($url,$link));
+//        $link = new Link();
+//        $link->url = $url;
+//        $link->status = 0; // Позначаємо URL як "в процесі"
+//        $link->save();
+//
+//        dispatch(new ApiParserJob($url,$link));
+        $link=$this->linkContract->create($url);
         return response()->json(['id' => $link->id]);
 
     }
@@ -48,15 +56,16 @@ class LinkController extends Controller
      */
     public function show(string $id)
     {
-        $link = Link::findOrFail($id);
-
-        if ($link->status == 0) {
-            return response()->json(['status' => $link->status, 'message' => 'in progress'], 200);
-        } elseif ($link->status == 1) {
-            return response()->json(['status' => $link->status, 'title' => $link->title], 200);
-        } else {
-            return response()->json(['status' => $link->status, 'message' => 'Помилка'], 200);
-        }
+//        $link = Link::findOrFail($id);
+//
+//        if ($link->status == 0) {
+//            return response()->json(['status' => $link->status, 'message' => 'in progress'], 200);
+//        } elseif ($link->status == 1) {
+//            return response()->json(['status' => $link->status, 'title' => $link->title], 200);
+//        } else {
+//            return response()->json(['status' => $link->status, 'message' => 'Помилка'], 200);
+//        }
+       return $this->linkContract->status($id);
     }
 
     /**

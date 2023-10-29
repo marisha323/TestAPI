@@ -1,32 +1,43 @@
 <?php
+
 namespace App\Repositories;
 
-use App\Contracts\DeskContract;
 use App\Contracts\LinkContract;
 use App\Jobs\ApiParserJob;
-use  App\Models\Desk;
-use App\Models\DesksUsers;
 use App\Models\Link;
-use App\Models\User;
-use App\Presenters\DeskAsArrayPresenter;
-use http\Env\Request;
-use \Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Date;
+
 
 class LinkRepository implements LinkContract
 {
-    protected $linkModel;
 
-    public function __construct(Link $link)
+
+    public function __construct()
     {
-        $this->linkModel = $link;
+
     }
 
-    public function store($link)
+    public function create($url)
     {
+        $link = new Link();
+        $link->url = $url;
+        $link->status = 0; // Позначаємо URL як "в процесі"
+        $link->save();
 
+        dispatch(new ApiParserJob($url, $link));
+        return $link;
+    }
 
+    public function status($id)
+    {
+        $link = Link::findOrFail($id);
+
+        if ($link->status == 0) {
+            return response()->json(['status' => $link->status, 'message' => 'in progress'], 200);
+        } elseif ($link->status == 1) {
+            return response()->json(['status' => $link->status, 'title' => $link->title], 200);
+        } else {
+            return response()->json(['status' => $link->status, 'message' => 'Помилка'], 200);
+        }
     }
 
 }

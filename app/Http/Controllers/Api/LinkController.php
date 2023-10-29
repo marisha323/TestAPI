@@ -40,12 +40,7 @@ class LinkController extends Controller
             'url' => 'required|url',
         ]);
         $url = $request->input('url');
-//        $link = new Link();
-//        $link->url = $url;
-//        $link->status = 0; // Позначаємо URL як "в процесі"
-//        $link->save();
-//
-//        dispatch(new ApiParserJob($url,$link));
+
         $link=$this->linkContract->create($url);
         return response()->json(['id' => $link->id]);
 
@@ -56,15 +51,7 @@ class LinkController extends Controller
      */
     public function show(string $id)
     {
-//        $link = Link::findOrFail($id);
-//
-//        if ($link->status == 0) {
-//            return response()->json(['status' => $link->status, 'message' => 'in progress'], 200);
-//        } elseif ($link->status == 1) {
-//            return response()->json(['status' => $link->status, 'title' => $link->title], 200);
-//        } else {
-//            return response()->json(['status' => $link->status, 'message' => 'Помилка'], 200);
-//        }
+
        return $this->linkContract->status($id);
     }
 

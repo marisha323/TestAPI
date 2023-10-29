@@ -3,27 +3,28 @@
 namespace App\Jobs;
 
 
+use App\Models\Link;
 use DOMDocument;
 use DOMXPath;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Foundation\Bus\DispatcurrentHandlerable;
 
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
 class ApiParserJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $url;
-    protected $link;
+    use  InteractsWithQueue, Queueable, SerializesModels;
+
+    protected Link $link;
     /**
      * Create a new job instance.
      */
-    public function __construct($url,$link)
+    public function __construct($link)
     {
-        $this->url =$url;
+
         $this->link =$link;
     }
 
@@ -32,15 +33,14 @@ class ApiParserJob implements ShouldQueue
      */
     public function handle(): void
     {
-
-        $ch = curl_init($this->url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        $result = curl_exec($ch);
+        echo  $this->link->url;
+        $currentHandler = curl_init($this->link->url);
+        curl_setopt($currentHandler, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($currentHandler, CURLOPT_HEADER, false);
+        $result = curl_exec($currentHandler);
         if ($result) {
             $dom = new DOMDocument;
             @$dom->loadHTML($result);
-            // Використовуйте DOMXPath для знаходження елементу title
             $xpath = new DOMXPath($dom);
             $titleNode = $xpath->query('//title')->item(0);
 
@@ -53,7 +53,6 @@ class ApiParserJob implements ShouldQueue
 
             }
         } else {
-            // Помилка при завантаженні сторінки
             $this->link->status = 2; // 2 - помилка
             $this->link->save();
         }

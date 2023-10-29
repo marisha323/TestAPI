@@ -802,31 +802,31 @@
     </div>
 </nav>
 
-<div class="row justify-content-center mt-5">
+{{--<div class="row justify-content-center mt-5">--}}
 
-    <div class="col-lg-4">
-        <div class="card">
-            <div class="card-header">
+{{--    <div class="col-lg-4">--}}
+{{--        <div class="card">--}}
+{{--            <div class="card-header">--}}
 
-                <div class="card-title">
-                    <h1 class="card-title">PARSER URL</h1>
-                </div>
-                <div class="card-body">
+{{--                <div class="card-title">--}}
+{{--                    <h1 class="card-title">PARSER URL</h1>--}}
+{{--                </div>--}}
+{{--                <div class="card-body">--}}
 
-                    <form action="{{route('parse')}}" method="POST">
-                        @csrf
+{{--                    <form action="{{route('parse')}}" method="POST">--}}
+{{--                        @csrf--}}
 
-                        <div class="mb-3">
-                            <label for="url" class="form-label">URL:</label>
-                            <input name="url" type="text" class="form-control" id="url">
-                        </div>
+{{--                        <div class="mb-3">--}}
+{{--                            <label for="url" class="form-label">URL:</label>--}}
+{{--                            <input name="url" type="text" class="form-control" id="url">--}}
+{{--                        </div>--}}
 
-                        <button type="submit" class="btn btn-primary bg-success">Парсити</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+{{--                        <button type="submit" class="btn btn-primary bg-success">Парсити</button>--}}
+{{--                    </form>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--</div>--}}
 </body>
 </html>

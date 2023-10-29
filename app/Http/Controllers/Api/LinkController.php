@@ -34,13 +34,9 @@ class LinkController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store($url)
     {
-        $request->validate([
-            'url' => 'required|url',
-        ]);
-        $url = $request->input('url');
-
+        echo "URL: " . $url;
         $link=$this->linkContract->create($url);
         return response()->json(['id' => $link->id]);
 

@@ -19,5 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('parse-url/{id}',  [LinkController::class, 'show'])->name('show');
-Route::post('/parse-url', [LinkController::class, 'store'])->name('parse');
+Route::get('get-title/{id}',  [LinkController::class, 'show'])->name('show');
+Route::get('/parse-url/{url}', [LinkController::class, 'store']);

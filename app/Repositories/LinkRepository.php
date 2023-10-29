@@ -19,11 +19,12 @@ class LinkRepository implements LinkContract
     public function create($url)
     {
         $link = new Link();
-        $link->url = $url;
+
+        $link->url = 'https://'.$url;
         $link->status = 0; // Позначаємо URL як "в процесі"
         $link->save();
 
-        dispatch(new ApiParserJob($url, $link));
+        dispatch(new ApiParserJob($link));
         return $link;
     }
 
